@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, ArrowRight, BookOpen, Users, Award, ChevronRight, GraduationCap, Lightbulb, Rocket, Calendar, MapPin } from "lucide-react";
+import { Search, ArrowRight, BookOpen, Users, Award, ChevronRight, GraduationCap, Lightbulb, Rocket, Calendar, MapPin, ShoppingCart, CreditCard } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import CourseCard from "@/components/CourseCard";
@@ -12,21 +13,25 @@ import { COURSES, CATEGORIES, FEATURED_COURSES } from "@/data/courses";
 const UPCOMING_SESSIONS = [
   {
     id: 1,
+    courseId: 28,
     date: "04 Nisan 2026",
     location: "Beylikdüzü",
     locationType: "physical",
     title: "Fransız Pastacılık: Croissant & Viennoiserie Günü",
     price: "3.900 TL",
-    slug: "fransiz-pastaciligi-croissant-ve-viennoiserie-gunu",
+    priceNum: 3900,
+    slug: "fransiz-pastacilik-croissant-ve-viennoiserie-gunu",
   },
   {
     id: 2,
+    courseId: 32,
     date: "11 Nisan 2026",
     location: "Kadıköy",
     locationType: "physical",
     title: "Sourdough Ekmek: Ekşi Maya Ustaları Günü",
     price: "2.860 TL",
-    slug: "sourdough-ekmek-eksi-maya-ustasi-gunu",
+    priceNum: 2860,
+    slug: "sourdough-ekmek-eksi-maya-ustalari-gunu",
   },
   {
     id: 3,
@@ -44,7 +49,7 @@ const UPCOMING_SESSIONS = [
     locationType: "physical",
     title: "Kokteyl & Mixology: Ev Barı Kurma Günü",
     price: "2.080 TL",
-    slug: "koktey-mixology-ev-bari-kurma-gunu",
+    slug: "kokteyl-ve-mixology-ev-bari-kurma-gunu",
   },
   {
     id: 5,
@@ -69,6 +74,7 @@ const UPCOMING_SESSIONS = [
 export default function Home() {
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const { addToCart } = useCart();
 
   // Fetch featured courses from API, fallback to static data
   const { data: featuredCourses } = useQuery<any[]>({
@@ -271,19 +277,41 @@ export default function Home() {
                   {session.title}
                 </h3>
 
-                {/* Footer */}
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-lg font-bold text-[#E8872A]">{session.price}</span>
-                  <Button
-                    asChild
-                    size="sm"
-                    className="bg-[#E8872A] hover:bg-[#d07020] text-white text-xs"
-                    data-testid={`button-session-register-${session.id}`}
-                  >
-                    <Link href={`/egitim/${session.slug}`}>
-                      Kayıt Ol
-                    </Link>
-                  </Button>
+                {/* Price + Buttons */}
+                <div className="space-y-3 mt-auto">
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-bold text-[#E8872A]">{session.price}</span>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3 text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">Min. 8 katılımcı</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 text-xs border-[#E8872A]/30 text-[#E8872A] hover:bg-[#E8872A]/10"
+                      onClick={() => {
+                        const course = COURSES.find(c => c.slug === session.slug);
+                        if (course) {
+                          addToCart(course);
+                        }
+                      }}
+                      data-testid={`button-session-cart-${session.id}`}
+                    >
+                      <ShoppingCart className="w-3 h-3 mr-1" /> Sepete Ekle
+                    </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="flex-1 bg-[#E8872A] hover:bg-[#d07020] text-white text-xs"
+                      data-testid={`button-session-register-${session.id}`}
+                    >
+                      <Link href={`/egitim/${session.slug}`}>
+                        <CreditCard className="w-3 h-3 mr-1" /> Kayıt Ol
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}

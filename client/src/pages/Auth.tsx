@@ -52,6 +52,8 @@ function LoginForm() {
   const { login, isLoading } = useAuth();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -72,7 +74,7 @@ function LoginForm() {
     }
   };
 
-  return (
+  return (<>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField control={form.control} name="email" render={({ field }) => (
@@ -116,6 +118,16 @@ function LoginForm() {
           </FormItem>
         )} />
 
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            className="text-xs text-[#E8872A] hover:underline"
+            onClick={() => setShowForgot(true)}
+          >
+            Şifremi Unuttum
+          </button>
+        </div>
+
         <Button
           type="submit"
           className="w-full bg-[#E8872A] hover:bg-[#d07020] text-white font-semibold h-11"
@@ -126,6 +138,38 @@ function LoginForm() {
         </Button>
       </form>
     </Form>
+
+    {/* Şifremi Unuttum Modal */}
+    {showForgot && (
+      <div className="mt-6 p-4 bg-muted rounded-xl">
+        <h3 className="font-semibold text-sm mb-2">Şifre Sıfırlama</h3>
+        <p className="text-xs text-muted-foreground mb-3">E-posta adresinizi girin, şifre sıfırlama bağlantısı gönderelim.</p>
+        <div className="flex gap-2">
+          <Input
+            type="email"
+            placeholder="E-posta adresiniz"
+            value={forgotEmail}
+            onChange={(e) => setForgotEmail(e.target.value)}
+            className="flex-1"
+          />
+          <Button
+            size="sm"
+            className="bg-[#E8872A] hover:bg-[#d07020] text-white"
+            onClick={() => {
+              if (forgotEmail) {
+                toast({ title: "Şifre sıfırlama bağlantısı gönderildi", description: `${forgotEmail} adresine şifre sıfırlama e-postası gönderildi.` });
+                setShowForgot(false);
+                setForgotEmail("");
+              }
+            }}
+          >
+            Gönder
+          </Button>
+        </div>
+        <button className="text-xs text-muted-foreground mt-2 hover:underline" onClick={() => setShowForgot(false)}>Vazgeç</button>
+      </div>
+    )}
+  </>
   );
 }
 
