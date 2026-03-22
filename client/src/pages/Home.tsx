@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, ArrowRight, BookOpen, Users, Award, ChevronRight, GraduationCap, Lightbulb, Rocket } from "lucide-react";
+import { Search, ArrowRight, BookOpen, Users, Award, ChevronRight, GraduationCap, Lightbulb, Rocket, Calendar, MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import CourseCard from "@/components/CourseCard";
@@ -8,6 +8,63 @@ import CategoryCard from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { COURSES, CATEGORIES, FEATURED_COURSES } from "@/data/courses";
+
+const UPCOMING_SESSIONS = [
+  {
+    id: 1,
+    date: "04 Nisan 2026",
+    location: "Beylikdüzü",
+    locationType: "physical",
+    title: "Fransız Pastacılık: Croissant & Viennoiserie Günü",
+    price: "3.900 TL",
+    slug: "fransiz-pastaciligi-croissant-ve-viennoiserie-gunu",
+  },
+  {
+    id: 2,
+    date: "11 Nisan 2026",
+    location: "Kadıköy",
+    locationType: "physical",
+    title: "Sourdough Ekmek: Ekşi Maya Ustaları Günü",
+    price: "2.860 TL",
+    slug: "sourdough-ekmek-eksi-maya-ustasi-gunu",
+  },
+  {
+    id: 3,
+    date: "18 Nisan 2026",
+    location: "Online",
+    locationType: "online",
+    title: "ChatGPT İş Hayatı Hızlandırıcı",
+    price: "3.000 TL",
+    slug: "chatgpt-is-hayati-hizlandirici-prompt-muhendisligi-gunu",
+  },
+  {
+    id: 4,
+    date: "25 Nisan 2026",
+    location: "Beşiktaş",
+    locationType: "physical",
+    title: "Kokteyl & Mixology: Ev Barı Kurma Günü",
+    price: "2.080 TL",
+    slug: "koktey-mixology-ev-bari-kurma-gunu",
+  },
+  {
+    id: 5,
+    date: "02 Mayıs 2026",
+    location: "Online",
+    locationType: "online",
+    title: "Dijital Pazarlama Bootcamp",
+    price: "3.600 TL",
+    slug: "dijital-pazarlama-bootcamp-meta-ve-google-ads-gunu",
+  },
+  {
+    id: 6,
+    date: "09 Mayıs 2026",
+    location: "Şişli",
+    locationType: "physical",
+    title: "Kintsugi: Kırık Güzellikleri Onarma Sanatı",
+    price: "2.860 TL",
+    slug: "kintsugi-kirik-guzellikleri-onarma-sanati",
+  },
+];
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -165,6 +222,71 @@ export default function Home() {
             <Button asChild variant="outline" className="border-[#E8872A] text-[#E8872A]">
               <Link href="/katalog">Tüm Eğitimleri Gör</Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── UPCOMING SESSIONS ────────────────────────────── */}
+      <section className="py-20 bg-[#F9F5F0] dark:bg-[#0E1B2E]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="font-display text-3xl font-bold text-foreground mb-2">Yakın Tarihli Eğitimler</h2>
+              <p className="text-muted-foreground">Önümüzdeki haftalarda başlayan workshoplara yerinizi ayırtın</p>
+            </div>
+            <Button asChild variant="ghost" className="text-[#E8872A] hover:text-[#d07020] hidden sm:flex">
+              <Link href="/katalog">
+                Tümünü gör <ChevronRight className="ml-1 w-4 h-4" />
+              </Link>
+            </Button>
+          </div>
+
+          {/* Scrollable on mobile, grid on desktop */}
+          <div className="flex gap-4 overflow-x-auto pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5 -mx-4 px-4 sm:mx-0 sm:px-0">
+            {UPCOMING_SESSIONS.map((session) => (
+              <div
+                key={session.id}
+                className="flex-shrink-0 w-72 sm:w-auto bg-card border border-card-border rounded-2xl p-5 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
+                data-testid={`card-session-${session.id}`}
+              >
+                {/* Date badge */}
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center gap-1.5 bg-[#E8872A]/10 border border-[#E8872A]/20 rounded-lg px-3 py-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-[#E8872A]" />
+                    <span className="text-xs font-semibold text-[#E8872A]">{session.date}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <MapPin className="w-3 h-3" />
+                    <span
+                      className="font-medium"
+                      style={{ color: session.locationType === "online" ? "#1A8A7D" : "#1E3A5F" }}
+                    >
+                      {session.location}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="font-display font-bold text-foreground leading-snug mb-4 text-sm sm:text-base line-clamp-2">
+                  {session.title}
+                </h3>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="text-lg font-bold text-[#E8872A]">{session.price}</span>
+                  <Button
+                    asChild
+                    size="sm"
+                    className="bg-[#E8872A] hover:bg-[#d07020] text-white text-xs"
+                    data-testid={`button-session-register-${session.id}`}
+                  >
+                    <Link href={`/egitim/${session.slug}`}>
+                      Kayıt Ol
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

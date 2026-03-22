@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link, useLocation } from "wouter";
-import { CheckCircle, ArrowRight } from "lucide-react";
+import { CheckCircle, ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -55,6 +55,8 @@ const perks = [
   "Eğitimci topluluğu",
 ];
 
+const WHATSAPP_URL = "https://wa.me/905321600848?text=Merhaba,%20birgundeogren.com%20%C3%BCzerinden%20e%C4%9Fitimci%20ba%C5%9Fvurusu%20yapmak%20istiyorum.";
+
 export default function InstructorApply() {
   const { token, isLoggedIn, user } = useAuth();
   const { toast } = useToast();
@@ -86,7 +88,10 @@ export default function InstructorApply() {
     // Static demo mode — no API call needed
     await new Promise(r => setTimeout(r, 700));
     setSubmitted(true);
-    toast({ title: "Başvurunuz alındı!", description: "En kısa sürede sizinle iletişime geçeceğiz." });
+    toast({
+      title: "Başvurunuz alındı!",
+      description: "Onay e-postası gönderildi. WhatsApp üzerinden de bilgilendirileceksiniz.",
+    });
   };
 
   if (submitted) {
@@ -98,12 +103,28 @@ export default function InstructorApply() {
             <CheckCircle className="w-10 h-10 text-green-600" />
           </div>
           <h1 className="font-display text-2xl font-bold mb-3">Başvurunuz Alındı!</h1>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-muted-foreground mb-3">
             En kısa sürede sizinle iletişime geçeceğiz.
           </p>
-          <Button asChild className="bg-[#E8872A] hover:bg-[#d07020] text-white">
-            <Link href="/">Ana Sayfaya Dön</Link>
-          </Button>
+          <p className="text-sm text-muted-foreground mb-6">
+            📱 WhatsApp üzerinden de bilgilendirileceksiniz.
+          </p>
+          {/* WhatsApp link */}
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-lg text-sm font-medium text-white transition-colors"
+            style={{ backgroundColor: "#25D366" }}
+          >
+            <MessageCircle className="w-4 h-4" />
+            WhatsApp'tan Bilgi Al
+          </a>
+          <div className="mt-2">
+            <Button asChild className="bg-[#E8872A] hover:bg-[#d07020] text-white">
+              <Link href="/">Ana Sayfaya Dön</Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -133,13 +154,38 @@ export default function InstructorApply() {
                   </div>
                 ))}
               </div>
+
+              {/* WhatsApp quick contact */}
+              <div className="mt-8">
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-colors"
+                  style={{ backgroundColor: "#25D366" }}
+                  data-testid="button-whatsapp-instructor"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp ile Başvur
+                </a>
+              </div>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
               <p className="text-white/60 text-sm mb-2">Aylık ortalama eğitimci kazancı</p>
               <p className="font-display text-4xl font-bold text-[#E8872A] mb-1">
                 120.000 — 150.000 TL
               </p>
-              <p className="text-white/40 text-xs">aylık ortalama 4 eğitim</p>
+              <p className="text-white/40 text-xs mb-4">aylık ortalama 4 eğitim</p>
+              {/* Calculation breakdown */}
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-left">
+                <p className="text-white/50 text-xs mb-2 font-medium">Hesaplama:</p>
+                <p className="text-white/70 text-xs leading-relaxed">
+                  Aylık ortalama <span className="text-[#E8872A] font-semibold">4 eğitim</span> × Ortalama{" "}
+                  <span className="text-[#E8872A] font-semibold">2.500 TL</span> bilet ×{" "}
+                  <span className="text-[#E8872A] font-semibold">15 katılımcı</span> ={" "}
+                  <span className="text-white font-bold">150.000 TL brüt</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -172,7 +218,7 @@ export default function InstructorApply() {
 
                 <FormField control={form.control} name="phone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Telefon *</FormLabel>
+                    <FormLabel>Telefon Numarası *</FormLabel>
                     <FormControl>
                       <Input {...field} type="tel" placeholder="+90 5XX XXX XX XX" data-testid="input-phone" />
                     </FormControl>

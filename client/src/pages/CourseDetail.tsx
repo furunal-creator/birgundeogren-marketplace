@@ -3,7 +3,7 @@ import { useParams } from "wouter";
 import { Link } from "wouter";
 import {
   Clock, Monitor, MapPin, Layers, Star, Users, ChevronRight,
-  BookOpen, Target, AlertCircle, CheckCircle, ShoppingCart
+  BookOpen, Target, AlertCircle, CheckCircle, ShoppingCart, Info
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import CourseCard from "@/components/CourseCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { COURSES } from "@/data/courses";
+import { useCart } from "@/contexts/CartContext";
 
 const formatMap: Record<string, { label: string; icon: any; color: string }> = {
   ONLINE: { label: "Online", icon: Monitor, color: "#1E3A5F" },
@@ -39,10 +40,17 @@ function StarRating({ value, size = "sm" }: { value: number; readonly?: boolean;
   );
 }
 
+const REFUND_POLICY = [
+  { label: "72+ saat önce iptalde", desc: "Tam iade" },
+  { label: "72–24 saat arası iptalde", desc: "%50 iade" },
+  { label: "24 saatten az kaldıktan sonra", desc: "İade yapılmaz" },
+  { label: "Eğitim iptal edilirse", desc: "Tam iade garantisi" },
+];
+
 export default function CourseDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { toast } = useToast();
-  const [cartAdded, setCartAdded] = useState(false);
+  const { addItem, isInCart } = useCart();
 
   // Fetch course from API, fallback to static data
   const { data: course, isLoading } = useQuery<any>({
@@ -60,9 +68,23 @@ export default function CourseDetail() {
     enabled: !!slug,
   });
 
+  const cartAdded = course ? isInCart(course.id) : false;
+
   const handleAddToCart = () => {
-    setCartAdded(true);
-    toast({ title: "Sepete eklendi!", description: course?.title });
+    if (!course) return;
+    addItem({
+      id: course.id,
+      code: course.code,
+      title: course.title,
+      price: course.price,
+      priceFormatted: course.priceFormatted,
+      imageUrl: course.imageUrl,
+      format: course.format,
+      durationHours: course.durationHours,
+      instructorName: course.instructor?.displayName ?? "Eğitmen",
+      category: course.category ? { name: course.category.name, color: course.category.color } : undefined,
+    });
+    toast({ title: "Sepete eklendi!", description: course.title });
   };
 
   if (isLoading) {
@@ -255,6 +277,22 @@ export default function CourseDetail() {
                     ))}
                   </div>
                 </div>
+
+                {/* Refund Policy */}
+                <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 rounded-xl p-5">
+                  <h3 className="font-semibold text-amber-900 dark:text-amber-100 mb-3 flex items-center gap-2">
+                    <Info className="w-4 h-4" />
+                    İade Koşulları
+                  </h3>
+                  <div className="space-y-2">
+                    {REFUND_POLICY.map((r) => (
+                      <div key={r.label} className="flex items-center justify-between text-sm">
+                        <span className="text-amber-800 dark:text-amber-200">{r.label}</span>
+                        <span className="font-semibold text-amber-900 dark:text-amber-100">{r.desc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
 
               <TabsContent value="instructor" className="pt-4">
@@ -378,15 +416,12 @@ export default function CourseDetail() {
                   </Button>
                 )}
 
-                <p className="text-xs text-muted-foreground text-center">
-                  30 gün içinde iade garantisi
-                </p>
-
                 {/* Quick facts */}
                 <div className="space-y-2 pt-2">
                   {[
                     { icon: Clock, label: `${course.durationHours} saatlik yoğun eğitim` },
-                    { icon: Users, label: "Maks. 20 kişilik grup" },
+                    { icon: Users, label: "Minimum 8 katılımcı" },
+                    { icon: Users, label: "Maksimum 20 kişilik grup" },
                     { icon: CheckCircle, label: "Dijital sertifika" },
                     { icon: BookOpen, label: "Eğitim materyalleri dahil" },
                   ].map(({ icon: Icon, label }) => (
@@ -395,6 +430,21 @@ export default function CourseDetail() {
                       {label}
                     </div>
                   ))}
+                </div>
+
+                {/* Refund mini */}
+                <div className="pt-3 border-t border-border">
+                  <p className="text-xs font-semibold mb-1.5 flex items-center gap-1">
+                    <Info className="w-3 h-3" /> İade Politikası
+                  </p>
+                  <div className="space-y-1">
+                    {REFUND_POLICY.map((r) => (
+                      <div key={r.label} className="flex justify-between text-xs text-muted-foreground">
+                        <span>{r.label}</span>
+                        <span className="font-medium text-foreground">{r.desc}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { MapPin, Mail, Globe, Users, Target, Eye } from "lucide-react";
+import { MapPin, Mail, Globe, Users, Target, Eye, MessageCircle, Instagram } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -109,6 +109,29 @@ export default function Hakkimizda() {
             <div className="flex items-center gap-3 text-white/70">
               <Users className="w-5 h-5 text-[#E8872A] flex-shrink-0" />
               <span>Kuniq Capital Inc.</span>
+            </div>
+            <div className="flex items-center gap-3 text-white/70">
+              <MessageCircle className="w-5 h-5 flex-shrink-0" style={{ color: '#25D366' }} />
+              <a
+                href="https://wa.me/905321600848"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+                style={{ color: '#25D366' }}
+              >
+                WhatsApp: 0532 160 08 48
+              </a>
+            </div>
+            <div className="flex items-center gap-3 text-white/70">
+              <Instagram className="w-5 h-5 text-[#E8872A] flex-shrink-0" />
+              <a
+                href="https://instagram.com/birgundeogren"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                @birgundeogren
+              </a>
             </div>
           </div>
 

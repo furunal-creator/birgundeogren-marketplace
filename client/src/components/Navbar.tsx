@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { ShoppingCart, Menu, X, User, LogOut, BookOpen, LayoutDashboard, ChevronDown, Shield } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { ShoppingCart, Menu, User, LogOut, BookOpen, LayoutDashboard, ChevronDown, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,20 +15,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Navbar() {
   const [location] = useLocation();
-  const { user, token, logout, isLoggedIn } = useAuth();
+  const { user, logout, isLoggedIn } = useAuth();
+  const { count: cartCount } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const { data: cartItems } = useQuery<any[]>({
-    queryKey: ["/api/cart"],
-    queryFn: async () => {
-      if (!token) return [];
-      const res = await apiRequest("GET", "/api/cart", undefined, token);
-      return res.json();
-    },
-    enabled: isLoggedIn,
-  });
-
-  const cartCount = cartItems?.length ?? 0;
 
   const navLinks = [
     { href: "/katalog", label: "Eğitimler" },
