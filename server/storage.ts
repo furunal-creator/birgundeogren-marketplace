@@ -162,6 +162,29 @@ sqlite.exec(`
   );
 `);
 
+// ── AUTO SEED (if database is empty) ────────────────────
+const userCount = sqlite.prepare("SELECT COUNT(*) as cnt FROM users").get() as any;
+if (userCount?.cnt === 0) {
+  console.log("🌱 Database is empty, running auto-seed...");
+  try {
+    require("child_process").execSync("npx tsx server/seed.ts", {
+      cwd: process.cwd(),
+      stdio: "inherit",
+      timeout: 120000,
+    });
+    console.log("✅ Auto-seed completed");
+  } catch (e) {
+    console.error("⚠️ Auto-seed via script failed, creating admin user...");
+    const crypto = require("crypto");
+    const hash = crypto.createHash("sha256").update("Admin2026!" + "birgundeogren_salt").digest("hex");
+    sqlite.prepare("INSERT OR IGNORE INTO users (email, password_hash, first_name, last_name, role, email_verified, is_active, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+      .run("admin@birgundeogren.com", hash, "Admin", "BGO", "ADMIN", 1, 1, new Date().toISOString());
+    console.log("✅ Created admin user: admin@birgundeogren.com / Admin2026!");
+  }
+}
+
+
+
 // ── STORAGE INTERFACE ───────────────────────────────────
 export interface IStorage {
   // Users
