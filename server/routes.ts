@@ -5,7 +5,7 @@ import * as crypto from "crypto";
 
 // ── RESEND EMAIL HELPER ───────────────────────────────
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const FROM_EMAIL = "birgundeogren.com <onboarding@resend.dev>";
+const FROM_EMAIL = "birgundeogren.com <info@birgundeogren.com>";
 const ADMIN_EMAIL = "furunal@gmail.com";
 
 async function sendEmail(to: string, subject: string, html: string) {
