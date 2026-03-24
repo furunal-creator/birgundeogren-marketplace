@@ -44,12 +44,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <img src="./assets/logo_small.png" alt="birgundeogren" className="h-8 w-auto" onError={(e) => {
+            <img src="./assets/logo_white.svg" alt="birgundeogren.com" className="h-10 w-auto hidden sm:block" onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }} />
-            <span className="font-display text-white font-bold text-lg hidden sm:block">
-              birgundeogren<span className="text-[#E8872A]">.com</span>
-            </span>
+            <img src="./assets/logo_small.png" alt="birgundeogren" className="h-8 w-auto sm:hidden" onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }} />
           </Link>
 
           {/* Desktop Nav */}

@@ -33,13 +33,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <img src="./assets/logo_small.png" alt="birgundeogren" className="h-8 w-auto" onError={(e) => {
+            <div className="mb-4">
+              <img src="./assets/logo_white.svg" alt="birgundeogren.com" className="h-10 w-auto" onError={(e) => {
                 (e.target as HTMLImageElement).style.display = "none";
               }} />
-              <span className="font-display text-white font-bold text-xl">
-                birgundeogren<span className="text-[#E8872A]">.com</span>
-              </span>
             </div>
             <p className="text-sm leading-relaxed mb-3">
               Türkiye'nin yoğun, pratik ve uygulamalı 1-günlük eğitim pazar yeri.

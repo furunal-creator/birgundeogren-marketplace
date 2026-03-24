@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" fill="none">
+  <!-- Icon: stylized open book + sunrise (learning in 1 day) -->
+  <g transform="translate(0, 5)">
+    <!-- Book base -->
+    <path d="M8 42 L25 30 L42 42" stroke="#E8872A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Book pages -->
+    <path d="M25 30 L25 12" stroke="#E8872A" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Left page lines -->
+    <path d="M12 38 L23 28" stroke="#0A1628" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+    <path d="M14 41 L22 33" stroke="#0A1628" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+    <!-- Right page lines -->
+    <path d="M38 38 L27 28" stroke="#0A1628" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+    <path d="M36 41 L28 33" stroke="#0A1628" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+    <!-- Sunrise rays above book -->
+    <circle cx="25" cy="10" r="4" fill="#E8872A" opacity="0.9"/>
+    <path d="M25 2 L25 5" stroke="#E8872A" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M18 5 L20 7" stroke="#E8872A" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M32 5 L30 7" stroke="#E8872A" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M14 10 L17 10" stroke="#E8872A" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M36 10 L33 10" stroke="#E8872A" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <!-- Text: birgundeogren -->
+  <text x="52" y="32" font-family="'DM Sans', sans-serif" font-weight="700" font-size="22" fill="#0A1628" letter-spacing="-0.5">birgundeogren</text>
+  <!-- Text: .com -->
+  <text x="227" y="32" font-family="'DM Sans', sans-serif" font-weight="700" font-size="22" fill="#E8872A" letter-spacing="-0.5">.com</text>
+  <!-- Tagline -->
+  <text x="52" y="48" font-family="'DM Sans', sans-serif" font-weight="400" font-size="9" fill="#0A1628" opacity="0.5" letter-spacing="2">BİR GÜNDE ÖĞREN</text>
+</svg>

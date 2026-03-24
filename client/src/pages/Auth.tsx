@@ -408,9 +408,7 @@ export default function AuthPage() {
             {/* Logo */}
             <div className="text-center mb-6">
               <Link href="/" className="inline-block">
-                <span className="font-display text-2xl font-bold text-foreground">
-                  birgundeogren<span className="text-[#E8872A]">.com</span>
-                </span>
+                <img src="./assets/logo_new.svg" alt="birgundeogren.com" className="h-12 w-auto mx-auto" />
               </Link>
             </div>
 
