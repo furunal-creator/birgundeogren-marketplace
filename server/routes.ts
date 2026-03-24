@@ -3,6 +3,34 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import * as crypto from "crypto";
 
+// ── RESEND EMAIL HELPER ───────────────────────────────
+const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
+const FROM_EMAIL = "birgundeogren.com <onboarding@resend.dev>";
+const ADMIN_EMAIL = "furunal@gmail.com";
+
+async function sendEmail(to: string, subject: string, html: string) {
+  if (!RESEND_API_KEY) {
+    console.log(`📧 Email skipped (no API key): ${subject} -> ${to}`);
+    return false;
+  }
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from: FROM_EMAIL, to: [to], subject, html }),
+    });
+    const data = await res.json();
+    console.log(`✉️ Email sent: ${subject} -> ${to} (${data.id || "error"})`);
+    return !!data.id;
+  } catch (e: any) {
+    console.error(`⚠️ Email failed: ${e.message}`);
+    return false;
+  }
+}
+
 // ── SIMPLE AUTH HELPER ────────────────────────────────
 function hashPassword(password: string): string {
   return crypto.createHash("sha256").update(password + "birgundeogren_salt").digest("hex");
@@ -243,6 +271,30 @@ export async function registerRoutes(
       isActive: true,
     });
     const token = createToken(user.id);
+    
+    // Send welcome email to user
+    sendEmail(email, "Hoş Geldiniz! | birgundeogren.com", `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+        <h2 style="color:#0A1628">Merhaba ${firstName},</h2>
+        <p>birgundeogren.com'a hoş geldiniz! Hesabınız başarıyla oluşturuldu.</p>
+        <p><strong>E-posta:</strong> ${email}</p>
+        <p>80+ farklı eğitim arasından seçim yaparak 1 günlük yoğun workshop deneyimine başlayabilirsiniz.</p>
+        <a href="https://www.birgundeogren.com" style="display:inline-block;background:#E8872A;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;margin-top:16px">Eğitimleri Keşfet</a>
+        <p style="color:#666;font-size:12px;margin-top:24px">Kuniq Capital Inc. | birgundeogren.com</p>
+      </div>
+    `);
+    
+    // Notify admin
+    sendEmail(ADMIN_EMAIL, `Yeni Üye Kayıt: ${firstName} ${lastName} | birgundeogren.com`, `
+      <div style="font-family:sans-serif">
+        <h3>🌟 Yeni Üye Kayıt</h3>
+        <p><strong>Ad Soyad:</strong> ${firstName} ${lastName}</p>
+        <p><strong>E-posta:</strong> ${email}</p>
+        <p><strong>Telefon:</strong> ${phone || 'Belirtilmedi'}</p>
+        <p><strong>Tarih:</strong> ${new Date().toLocaleString('tr-TR')}</p>
+      </div>
+    `);
+    
     res.status(201).json({ token, user: { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role } });
   });
 
@@ -471,19 +523,38 @@ export async function registerRoutes(
 
     const token = createToken(user.id);
 
+    // Send confirmation email to applicant
+    sendEmail(email, "Eğitimci Başvurunuz Alındı | birgundeogren.com", `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+        <h2 style="color:#0A1628">Merhaba ${displayName},</h2>
+        <p>birgundeogren.com eğitimci başvurunuz başarıyla alınmıştır.</p>
+        <p>Başvurunuz inceleniyor. En kısa sürede sizinle iletişime geçeceğiz.</p>
+        <p><strong>Uzmanlık Alanı:</strong> ${Array.isArray(expertiseAreas) ? expertiseAreas.join(', ') : expertiseAreas}</p>
+        <p><strong>Deneyim:</strong> ${experienceYears} yıl</p>
+        <p style="color:#666;font-size:12px;margin-top:24px">Kuniq Capital Inc. | birgundeogren.com</p>
+      </div>
+    `);
+    
+    // Notify admin about new instructor application
+    sendEmail(ADMIN_EMAIL, `🎓 Yeni Eğitimci Başvurusu: ${displayName} | birgundeogren.com`, `
+      <div style="font-family:sans-serif">
+        <h3>🎓 Yeni Eğitimci Başvurusu</h3>
+        <p><strong>Ad Soyad:</strong> ${displayName}</p>
+        <p><strong>E-posta:</strong> ${email}</p>
+        <p><strong>Telefon:</strong> ${phone || 'Belirtilmedi'}</p>
+        <p><strong>Uzmanlık:</strong> ${Array.isArray(expertiseAreas) ? expertiseAreas.join(', ') : expertiseAreas}</p>
+        <p><strong>Deneyim:</strong> ${experienceYears} yıl</p>
+        <p><strong>Örnek Eğitim:</strong> ${sampleTitle || '-'}</p>
+        <p><strong>Tarih:</strong> ${new Date().toLocaleString('tr-TR')}</p>
+        <a href="https://www.birgundeogren.com/#/admin" style="display:inline-block;background:#E8872A;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;margin-top:12px">Admin Paneline Git</a>
+      </div>
+    `);
+
     res.status(201).json({
       success: true,
       instructor,
       token,
       user: { id: user.id, email: user.email, firstName, lastName, role: "INSTRUCTOR" },
-      // Email details for external sending
-      emailNotification: {
-        applicantEmail: email,
-        applicantName: displayName,
-        expertise: expertiseAreas,
-        experience: experienceYears,
-        sampleTitle: sampleTitle || null,
-      }
     });
   });
 
