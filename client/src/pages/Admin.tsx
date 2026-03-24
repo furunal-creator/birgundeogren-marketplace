@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Users, BookOpen, ShoppingCart, TrendingUp, Search, CheckCircle, XCircle, Shield } from "lucide-react";
+import { Users, BookOpen, ShoppingCart, TrendingUp, Search, CheckCircle, XCircle, Shield, UserX, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -113,6 +113,40 @@ export default function Admin() {
       throw new Error("Yetkisiz");
     },
     enabled: !!token && user?.role === "ADMIN",
+  });
+
+  // User deactivate mutation
+  const deactivateUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const res = await apiRequest("DELETE", `/api/admin/users/${userId}`, undefined, token ?? undefined);
+      if (!res.ok) throw new Error("İşlem başarısız");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "Kullanıcı devre dışı bırakıldı", description: "Kullanıcı hesabı pasif duruma alındı." });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "İşlem gerçekleştirilemedi.", variant: "destructive" });
+    },
+  });
+
+  // User reactivate mutation
+  const reactivateUserMutation = useMutation({
+    mutationFn: async (userId: number) => {
+      const res = await apiRequest("PATCH", `/api/admin/users/${userId}/activate`, {}, token ?? undefined);
+      if (!res.ok) throw new Error("İşlem başarısız");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "Kullanıcı tekrar aktif edildi", description: "Kullanıcı hesabı aktif duruma alındı." });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "İşlem gerçekleştirilemedi.", variant: "destructive" });
+    },
   });
 
   // Approve/Reject mutation
@@ -246,7 +280,9 @@ export default function Admin() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between gap-4">
-                  <CardTitle className="text-base font-semibold">Tüm Kullanıcılar ({users?.length ?? 0})</CardTitle>
+                  <CardTitle className="text-base font-semibold">
+                    Toplam {users?.length ?? 0} kayıtlı kullanıcı
+                  </CardTitle>
                   <div className="relative w-64">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
@@ -273,18 +309,63 @@ export default function Admin() {
                         <TableHead>E-posta</TableHead>
                         <TableHead>Telefon</TableHead>
                         <TableHead>Rol</TableHead>
+                        <TableHead>Durum</TableHead>
                         <TableHead>Kayıt Tarihi</TableHead>
+                        <TableHead className="text-right">İşlemler</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredUsers.map((u: any) => (
-                        <TableRow key={u.id} data-testid={`row-user-${u.id}`}>
+                        <TableRow
+                          key={u.id}
+                          data-testid={`row-user-${u.id}`}
+                          className={!u.isActive ? "opacity-50" : ""}
+                        >
                           <TableCell className="text-muted-foreground text-xs">{u.id}</TableCell>
                           <TableCell className="font-medium">{u.firstName} {u.lastName}</TableCell>
                           <TableCell className="text-sm">{u.email}</TableCell>
                           <TableCell className="text-muted-foreground text-sm">{u.phone || "-"}</TableCell>
                           <TableCell><StatusBadge status={u.role} /></TableCell>
+                          <TableCell>
+                            {u.isActive ? (
+                              <span className="text-xs font-medium px-2 py-0.5 rounded-full border bg-green-100 text-green-800 border-green-200">Aktif</span>
+                            ) : (
+                              <span className="text-xs font-medium px-2 py-0.5 rounded-full border bg-gray-100 text-gray-600 border-gray-200">Pasif</span>
+                            )}
+                          </TableCell>
                           <TableCell className="text-muted-foreground text-sm">{formatDate(u.createdAt)}</TableCell>
+                          <TableCell className="text-right">
+                            {u.id !== user?.id && (
+                              u.isActive ? (
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  className="h-7 px-2 text-xs"
+                                  onClick={() => {
+                                    if (confirm(`"${u.firstName} ${u.lastName}" kullanıcısını devre dışı bırakmak istediğinize emin misiniz?`)) {
+                                      deactivateUserMutation.mutate(u.id);
+                                    }
+                                  }}
+                                  disabled={deactivateUserMutation.isPending}
+                                  data-testid={`button-deactivate-${u.id}`}
+                                >
+                                  <UserX className="w-3.5 h-3.5 mr-1" />
+                                  Devre Dışı Bırak
+                                </Button>
+                              ) : (
+                                <Button
+                                  size="sm"
+                                  className="h-7 px-2 text-xs bg-green-600 hover:bg-green-700 text-white"
+                                  onClick={() => reactivateUserMutation.mutate(u.id)}
+                                  disabled={reactivateUserMutation.isPending}
+                                  data-testid={`button-reactivate-${u.id}`}
+                                >
+                                  <UserCheck className="w-3.5 h-3.5 mr-1" />
+                                  Tekrar Aktif Et
+                                </Button>
+                              )
+                            )}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

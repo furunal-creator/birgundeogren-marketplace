@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, ArrowRight, BookOpen, Users, Award, ChevronRight, GraduationCap, Lightbulb, Rocket, Calendar, MapPin, ShoppingCart, CreditCard } from "lucide-react";
+import { Search, ArrowRight, BookOpen, Users, Award, ChevronRight, GraduationCap, Lightbulb, Rocket, Calendar, MapPin, ShoppingCart, CreditCard, X, Clock, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CourseCard from "@/components/CourseCard";
 import CategoryCard from "@/components/CategoryCard";
 import Footer from "@/components/Footer";
@@ -35,38 +36,46 @@ const UPCOMING_SESSIONS = [
   },
   {
     id: 3,
+    courseId: 2,
     date: "18 Nisan 2026",
     location: "Online",
     locationType: "online",
     title: "ChatGPT İş Hayatı Hızlandırıcı",
     price: "3.000 TL",
+    priceNum: 3000,
     slug: "chatgpt-is-hayati-hizlandirici-prompt-muhendisligi-gunu",
   },
   {
     id: 4,
+    courseId: 29,
     date: "25 Nisan 2026",
     location: "Beşiktaş",
     locationType: "physical",
     title: "Kokteyl & Mixology: Ev Barı Kurma Günü",
     price: "2.080 TL",
+    priceNum: 2080,
     slug: "kokteyl-ve-mixology-ev-bari-kurma-gunu",
   },
   {
     id: 5,
+    courseId: 3,
     date: "02 Mayıs 2026",
     location: "Online",
     locationType: "online",
     title: "Dijital Pazarlama Bootcamp",
     price: "3.600 TL",
+    priceNum: 3600,
     slug: "dijital-pazarlama-bootcamp-meta-ve-google-ads-gunu",
   },
   {
     id: 6,
+    courseId: 13,
     date: "09 Mayıs 2026",
     location: "Şişli",
     locationType: "physical",
     title: "Kintsugi: Kırık Güzellikleri Onarma Sanatı",
     price: "2.860 TL",
+    priceNum: 2860,
     slug: "kintsugi-kirik-guzellikleri-onarma-sanati",
   },
 ];
@@ -75,6 +84,15 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const { addToCart } = useCart();
+  const [selectedSession, setSelectedSession] = useState<typeof UPCOMING_SESSIONS[0] | null>(null);
+
+  useEffect(() => {
+    document.title = "birgundeogren.com — Türkiye'nin 1-Günlük Eğitim Pazar Yeri";
+  }, []);
+
+  const selectedCourse = selectedSession
+    ? COURSES.find(c => c.id === selectedSession.courseId) ?? null
+    : null;
 
   // Fetch featured courses from API, fallback to static data
   const { data: featuredCourses } = useQuery<any[]>({
@@ -252,8 +270,9 @@ export default function Home() {
             {UPCOMING_SESSIONS.map((session) => (
               <div
                 key={session.id}
-                className="flex-shrink-0 w-72 sm:w-auto bg-card border border-card-border rounded-2xl p-5 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
+                className="flex-shrink-0 w-72 sm:w-auto bg-card border border-card-border rounded-2xl p-5 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                 data-testid={`card-session-${session.id}`}
+                onClick={() => setSelectedSession(session)}
               >
                 {/* Date badge */}
                 <div className="flex items-center gap-2 mb-4">
@@ -291,7 +310,8 @@ export default function Home() {
                       size="sm"
                       variant="outline"
                       className="flex-1 text-xs border-[#E8872A]/30 text-[#E8872A] hover:bg-[#E8872A]/10"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         const course = COURSES.find(c => c.slug === session.slug);
                         if (course) {
                           addToCart(course);
@@ -306,6 +326,7 @@ export default function Home() {
                       size="sm"
                       className="flex-1 bg-[#E8872A] hover:bg-[#d07020] text-white text-xs"
                       data-testid={`button-session-register-${session.id}`}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Link href={`/egitim/${session.slug}`}>
                         <CreditCard className="w-3 h-3 mr-1" /> Kayıt Ol
@@ -316,6 +337,127 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          {/* Session Detail Modal */}
+          <Dialog open={!!selectedSession} onOpenChange={(open) => { if (!open) setSelectedSession(null); }}>
+            <DialogContent className="max-w-lg p-0 overflow-hidden rounded-2xl">
+              {selectedSession && (
+                <>
+                  {/* Course image */}
+                  {selectedCourse?.imageUrl && (
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={selectedCourse.imageUrl}
+                        alt={selectedSession.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/60 to-transparent" />
+                      <button
+                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors"
+                        onClick={() => setSelectedSession(null)}
+                        aria-label="Kapat"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="p-6">
+                    {/* Date & Location */}
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="flex items-center gap-1.5 bg-[#E8872A]/10 border border-[#E8872A]/20 rounded-lg px-3 py-1">
+                        <Calendar className="w-3.5 h-3.5 text-[#E8872A]" />
+                        <span className="text-xs font-semibold text-[#E8872A]">{selectedSession.date}</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs">
+                        <MapPin className="w-3 h-3 text-muted-foreground" />
+                        <span
+                          className="font-medium"
+                          style={{ color: selectedSession.locationType === "online" ? "#1A8A7D" : "#1E3A5F" }}
+                        >
+                          {selectedSession.location}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="font-display text-xl font-bold text-foreground mb-2 leading-snug">
+                      {selectedSession.title}
+                    </h2>
+
+                    {/* Meta */}
+                    {selectedCourse && (
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                        {selectedCourse.durationHours && (
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            <span>{selectedCourse.durationHours} saat</span>
+                          </div>
+                        )}
+                        {selectedCourse.instructor?.displayName && (
+                          <div className="flex items-center gap-1">
+                            <User className="w-4 h-4" />
+                            <span>{selectedCourse.instructor.displayName}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    {selectedCourse?.descriptionShort && (
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                        {selectedCourse.descriptionShort}
+                      </p>
+                    )}
+
+                    {/* Price */}
+                    <div className="flex items-center justify-between mb-5">
+                      <span className="text-2xl font-bold text-[#E8872A]">{selectedSession.price}</span>
+                      <span className="text-xs text-muted-foreground">Min. 8 katılımcı</span>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3">
+                      <Button
+                        variant="outline"
+                        className="flex-1 border-[#E8872A]/30 text-[#E8872A] hover:bg-[#E8872A]/10"
+                        onClick={() => {
+                          const course = COURSES.find(c => c.slug === selectedSession.slug);
+                          if (course) addToCart(course);
+                          setSelectedSession(null);
+                        }}
+                        data-testid={`modal-button-cart-${selectedSession.id}`}
+                      >
+                        <ShoppingCart className="w-4 h-4 mr-2" /> Sepete Ekle
+                      </Button>
+                      <Button
+                        asChild
+                        className="flex-1 bg-[#E8872A] hover:bg-[#d07020] text-white"
+                        data-testid={`modal-button-register-${selectedSession.id}`}
+                      >
+                        <Link href={`/egitim/${selectedSession.slug}`} onClick={() => setSelectedSession(null)}>
+                          Kayıt Ol
+                        </Link>
+                      </Button>
+                    </div>
+
+                    {/* Details link */}
+                    <div className="mt-3 text-center">
+                      <Link
+                        href={`/egitim/${selectedSession.slug}`}
+                        className="text-sm text-[#1A8A7D] hover:underline font-medium"
+                        onClick={() => setSelectedSession(null)}
+                        data-testid={`modal-link-detail-${selectedSession.id}`}
+                      >
+                        Detayları Gör &rarr;
+                      </Link>
+                    </div>
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 

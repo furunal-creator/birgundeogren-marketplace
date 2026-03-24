@@ -177,6 +177,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(u);
           memToken = data.token;
           memUser = u;
+          // Notify backend about registration (fire-and-forget)
+          fetch(`${API_BASE}/api/notifications/send`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${data.token}`,
+            },
+            body: JSON.stringify({
+              type: "registration",
+              recipientEmail: data.user.email,
+              recipientName: `${data.user.firstName} ${data.user.lastName}`,
+            }),
+          }).catch(() => {}); // ignore errors
           return;
         } else {
           const errData = await res.json().catch(() => ({}));

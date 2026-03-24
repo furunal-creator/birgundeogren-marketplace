@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "wouter";
 import { Link } from "wouter";
 import {
@@ -69,6 +69,14 @@ export default function CourseDetail() {
   });
 
   const cartAdded = course ? isInCart(course.id) : false;
+
+  useEffect(() => {
+    if (course?.title) {
+      document.title = `${course.title} | birgundeogren.com`;
+    } else {
+      document.title = "Eğitim Detayı | birgundeogren.com";
+    }
+  }, [course?.title]);
 
   const handleAddToCart = () => {
     if (!course) return;

@@ -1,9 +1,13 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { MapPin, Mail, Globe, Users, Target, Eye, MessageCircle, Instagram } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function Hakkimizda() {
+  useEffect(() => {
+    document.title = "Hakkımızda | birgundeogren.com";
+  }, []);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

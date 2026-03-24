@@ -37,6 +37,10 @@ const SORT_OPTIONS = [
 export default function Catalog() {
   const [, setLocation] = useLocation();
 
+  useEffect(() => {
+    document.title = "Eğitim Kataloğu | birgundeogren.com";
+  }, []);
+
   // Parse initial query params from hash URL
   const getInitial = () => {
     if (typeof window === "undefined") return {};

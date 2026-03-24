@@ -221,7 +221,7 @@ function RegisterForm({ onTabChange }: { onTabChange: (tab: string) => void }) {
   const handleVerify = () => {
     if (inputCode === verifyCode) {
       toast({
-        title: "Üyelik onaylandı!",
+        title: "Hoş geldiniz!",
         description: "Üyelik bilgileriniz e-posta adresinize gönderildi.",
       });
       setLocation("/");

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /#/admin
+Disallow: /#/hesabim
+Disallow: /#/sepet
+Disallow: /#/odeme
+Sitemap: https://www.birgundeogren.com/sitemap.xml
