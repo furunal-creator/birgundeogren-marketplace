@@ -42,7 +42,7 @@ export default function Footer() {
               Türkiye'nin yoğun, pratik ve uygulamalı 1-günlük eğitim pazar yeri.
             </p>
             <p className="text-xs text-white/40 mb-4">
-              birgundeogren.com bir Kuniq Capital Inc. kuruluşudur.
+              birgundeogren.com bir Capital 247 Inc. kuruluşudur.
             </p>
             <p className="text-sm mb-4">
               <a href="mailto:info@birgundeogren.com" className="text-[#E8872A] hover:text-[#f09840] transition-colors">
@@ -134,7 +134,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40">
-            © {year} birgundeogren.com. Tüm hakları saklıdır. Kuniq Capital Inc.
+            © {year} birgundeogren.com. Tüm hakları saklıdır. Capital 247 Inc.
           </p>
           <span className="text-xs text-white/30">
             by FU

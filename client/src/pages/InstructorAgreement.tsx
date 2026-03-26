@@ -9,7 +9,7 @@ export default function InstructorAgreement() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Draft Notice */}
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8 text-amber-800 text-sm font-medium">
-            ⚠️ Bu sözleşme taslak niteliğindedir. Hukuki bağlayıcılığı bulunmamakta olup nihai metin Kuniq Capital Hukuk Birimi tarafından revize edilecektir.
+            ⚠️ Bu sözleşme taslak niteliğindedir. Hukuki bağlayıcılığı bulunmamakta olup nihai metin Capital 247 Hukuk Birimi tarafından revize edilecektir.
           </div>
 
           <div className="bg-card border border-card-border rounded-2xl p-8 sm:p-12">
@@ -17,7 +17,7 @@ export default function InstructorAgreement() {
               Eğitimci İşbirliği Sözleşmesi
             </h1>
             <p className="text-muted-foreground text-center text-sm mb-10">
-              birgundeogren.com — Kuniq Capital Inc.
+              birgundeogren.com — Capital 247 Inc.
             </p>
 
             <div className="prose prose-slate max-w-none space-y-8 text-sm text-foreground leading-relaxed">
@@ -27,10 +27,10 @@ export default function InstructorAgreement() {
                   Madde 1 — Taraflar
                 </h2>
                 <p>
-                  İşbu Eğitimci İşbirliği Sözleşmesi ("Sözleşme"); bir tarafta <strong>Kuniq Capital Inc.</strong> ("Platform" veya "Şirket") ile diğer tarafta <strong>birgundeogren.com</strong> platformu üzerinden eğitim hizmeti sunmak üzere başvuru yapan gerçek veya tüzel kişi ("Eğitimci") arasında akdedilmiştir.
+                  İşbu Eğitimci İşbirliği Sözleşmesi ("Sözleşme"); bir tarafta <strong>Capital 247 Inc.</strong> ("Platform" veya "Şirket") ile diğer tarafta <strong>birgundeogren.com</strong> platformu üzerinden eğitim hizmeti sunmak üzere başvuru yapan gerçek veya tüzel kişi ("Eğitimci") arasında akdedilmiştir.
                 </p>
                 <p className="mt-2">Platform adresi: birgundeogren.com</p>
-                <p>İletişim: info@birgundeogren.com | info@kuniqcapital.com</p>
+                <p>İletişim: info@birgundeogren.com | info@capital247.com.tr</p>
               </section>
 
               <section>
@@ -143,11 +143,11 @@ export default function InstructorAgreement() {
               </section>
 
               <div className="mt-10 pt-6 border-t border-border text-center text-xs text-muted-foreground">
-                <p>birgundeogren.com — Kuniq Capital Inc.</p>
+                <p>birgundeogren.com — Capital 247 Inc.</p>
                 <p className="mt-1">
                   <a href="mailto:info@birgundeogren.com" className="text-[#E8872A] hover:underline">info@birgundeogren.com</a>
                   {" | "}
-                  <a href="mailto:info@kuniqcapital.com" className="text-[#E8872A] hover:underline">info@kuniqcapital.com</a>
+                  <a href="mailto:info@capital247.com.tr" className="text-[#E8872A] hover:underline">info@capital247.com.tr</a>
                 </p>
                 <p className="mt-2 italic text-amber-600">Bu sözleşme taslak niteliğindedir.</p>
               </div>

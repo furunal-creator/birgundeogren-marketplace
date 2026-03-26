@@ -22,7 +22,7 @@ export default function Hakkimizda() {
             birgundeogren.com, Türkiye'nin ilk 1 günlük yoğun eğitim pazar yeri platformudur.
           </p>
           <p className="text-white/50 text-sm mt-3">
-            birgundeogren.com bir Kuniq Capital Inc. kuruluşudur.
+            birgundeogren.com bir Capital 247 Inc. kuruluşudur.
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function Hakkimizda() {
               Geleneksel uzun soluklu eğitim modellerinin aksine, birgundeogren.com konsantre, yoğun ve sonuç odaklı 1 günlük workshopları ile öğrencilerin en kısa sürede gerçek beceriler kazanmasını hedefler. Gastronomi'den yapay zekâya, el sanatlarından girişimciliğe kadar 10 farklı kategoride yüzlerce eğitim seçeneği sunar.
             </p>
             <p>
-              birgundeogren.com, <strong className="text-foreground">Kuniq Capital Inc.</strong> bünyesinde faaliyet göstermektedir.
+              birgundeogren.com, <strong className="text-foreground">Capital 247 Inc.</strong> bünyesinde faaliyet göstermektedir.
             </p>
           </div>
         </section>
@@ -105,14 +105,14 @@ export default function Hakkimizda() {
                   info@birgundeogren.com
                 </a>
                 <span className="hidden sm:block text-white/30">|</span>
-                <a href="mailto:info@kuniqcapital.com" className="hover:text-white transition-colors">
-                  info@kuniqcapital.com
+                <a href="mailto:info@capital247.com.tr" className="hover:text-white transition-colors">
+                  info@capital247.com.tr
                 </a>
               </div>
             </div>
             <div className="flex items-center gap-3 text-white/70">
               <Users className="w-5 h-5 text-[#E8872A] flex-shrink-0" />
-              <span>Kuniq Capital Inc.</span>
+              <span>Capital 247 Inc.</span>
             </div>
             <div className="flex items-center gap-3 text-white/70">
               <MessageCircle className="w-5 h-5 flex-shrink-0" style={{ color: '#25D366' }} />

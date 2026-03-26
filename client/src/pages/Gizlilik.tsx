@@ -14,7 +14,7 @@ export default function Gizlilik() {
               Gizlilik Politikası
             </h1>
             <p className="text-muted-foreground text-center text-sm mb-2">
-              birgundeogren.com — Kuniq Capital Inc.
+              birgundeogren.com — Capital 247 Inc.
             </p>
             <p className="text-muted-foreground text-center text-xs mb-10">
               Son Güncelleme: {lastUpdated}
@@ -27,7 +27,7 @@ export default function Gizlilik() {
                   1. Genel Bilgi
                 </h2>
                 <p className="text-muted-foreground">
-                  Bu Gizlilik Politikası, <strong className="text-foreground">birgundeogren.com</strong> web sitesini ve mobil uygulamalarını kullanmanız sırasında kişisel verilerinizin nasıl toplandığını, kullanıldığını, paylaşıldığını ve korunduğunu açıklamaktadır. birgundeogren.com, Kuniq Capital Inc. tarafından işletilmektedir.
+                  Bu Gizlilik Politikası, <strong className="text-foreground">birgundeogren.com</strong> web sitesini ve mobil uygulamalarını kullanmanız sırasında kişisel verilerinizin nasıl toplandığını, kullanıldığını, paylaşıldığını ve korunduğunu açıklamaktadır. birgundeogren.com, Capital 247 Inc. tarafından işletilmektedir.
                 </p>
                 <p className="text-muted-foreground mt-3">
                   Bu politikayı kabul etmek için sitemizi kullanmaya devam etmeniz yeterlidir. Kabul etmiyorsanız lütfen sitemizi kullanmayı bırakın.
@@ -89,7 +89,7 @@ export default function Gizlilik() {
                   <li><strong className="text-foreground">Hizmet sağlayıcılar:</strong> Ödeme işlemcileri, e-posta hizmet sağlayıcıları, bulut altyapı sağlayıcıları (yalnızca hizmetin ifası amacıyla)</li>
                   <li><strong className="text-foreground">Eğitimciler:</strong> Kayıtlı olduğunuz eğitimin eğitimcisi, yalnızca o eğitime özel iletişim amacıyla</li>
                   <li><strong className="text-foreground">Yasal zorunluluk:</strong> Mahkeme kararı veya yasal yükümlülük gerektirdiğinde yetkili makamlarla</li>
-                  <li><strong className="text-foreground">Şirket devrinde:</strong> Kuniq Capital'ın tüm veya bir kısmının devredilmesi durumunda (önceden bildirimde bulunulur)</li>
+                  <li><strong className="text-foreground">Şirket devrinde:</strong> Capital 247'nin tüm veya bir kısmının devredilmesi durumunda (önceden bildirimde bulunulur)</li>
                 </ul>
                 <p className="mt-3 text-muted-foreground font-medium">
                   Verilerinizi hiçbir koşulda reklam amaçlı üçüncü taraflara satmıyoruz.
@@ -190,15 +190,15 @@ export default function Gizlilik() {
                     </a>
                   </p>
                   <p>
-                    <a href="mailto:info@kuniqcapital.com" className="text-[#E8872A] hover:underline">
-                      info@kuniqcapital.com
+                    <a href="mailto:info@capital247.com.tr" className="text-[#E8872A] hover:underline">
+                      info@capital247.com.tr
                     </a>
                   </p>
                 </div>
               </section>
 
               <div className="mt-10 pt-6 border-t border-border text-center text-xs text-muted-foreground">
-                <p>© {new Date().getFullYear()} birgundeogren.com — Kuniq Capital Inc.</p>
+                <p>© {new Date().getFullYear()} birgundeogren.com — Capital 247 Inc.</p>
                 <p className="mt-1">Son güncelleme: {lastUpdated}</p>
               </div>
             </div>

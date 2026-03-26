@@ -280,7 +280,7 @@ export async function registerRoutes(
         <p><strong>E-posta:</strong> ${email}</p>
         <p>80+ farklı eğitim arasından seçim yaparak 1 günlük yoğun workshop deneyimine başlayabilirsiniz.</p>
         <a href="https://www.birgundeogren.com" style="display:inline-block;background:#E8872A;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;margin-top:16px">Eğitimleri Keşfet</a>
-        <p style="color:#666;font-size:12px;margin-top:24px">Kuniq Capital Inc. | birgundeogren.com</p>
+        <p style="color:#666;font-size:12px;margin-top:24px">Capital 247 Inc. | birgundeogren.com</p>
       </div>
     `);
     
@@ -531,7 +531,7 @@ export async function registerRoutes(
         <p>Başvurunuz inceleniyor. En kısa sürede sizinle iletişime geçeceğiz.</p>
         <p><strong>Uzmanlık Alanı:</strong> ${Array.isArray(expertiseAreas) ? expertiseAreas.join(', ') : expertiseAreas}</p>
         <p><strong>Deneyim:</strong> ${experienceYears} yıl</p>
-        <p style="color:#666;font-size:12px;margin-top:24px">Kuniq Capital Inc. | birgundeogren.com</p>
+        <p style="color:#666;font-size:12px;margin-top:24px">Capital 247 Inc. | birgundeogren.com</p>
       </div>
     `);
     

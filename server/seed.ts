@@ -485,7 +485,7 @@ console.log(`   Users: Admin + ${createdInstructors.length} instructors + 1 stud
 console.log(`\n   Admin login: admin@birgundeogren.com / Admin2026!`);
 console.log(`   Student login: ogrenci@birgundeogren.com / ogrenci123`);
 
-// Kuniq Capital Inc. branding note
-console.log(`\n   Platform: Kuniq Capital Inc. — birgundeogren.com`);
+// Capital 247 Inc. branding note
+console.log(`\n   Platform: Capital 247 Inc. — birgundeogren.com`);
 
 sqlite.close();

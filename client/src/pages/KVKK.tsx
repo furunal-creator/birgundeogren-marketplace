@@ -27,15 +27,15 @@ export default function KVKK() {
                   1. Veri Sorumlusu
                 </h2>
                 <p>
-                  6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verileriniz <strong>Kuniq Capital Inc.</strong> ("Şirket" veya "Kuniq Capital Inc.") tarafından veri sorumlusu sıfatıyla işlenmektedir.
+                  6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verileriniz <strong>Capital 247 Inc.</strong> ("Şirket" veya "Capital 247 Inc.") tarafından veri sorumlusu sıfatıyla işlenmektedir.
                 </p>
                 <div className="mt-3 p-4 bg-muted/30 rounded-lg space-y-1 text-xs text-muted-foreground">
-                  <p><strong className="text-foreground">Unvan:</strong> Kuniq Capital Inc.</p>
+                  <p><strong className="text-foreground">Unvan:</strong> Capital 247 Inc.</p>
                   <p><strong className="text-foreground">Platform:</strong> birgundeogren.com</p>
                   <p><strong className="text-foreground">E-posta:</strong>{" "}
                     <a href="mailto:info@birgundeogren.com" className="text-[#E8872A] hover:underline">info@birgundeogren.com</a>
                     {" | "}
-                    <a href="mailto:info@kuniqcapital.com" className="text-[#E8872A] hover:underline">info@kuniqcapital.com</a>
+                    <a href="mailto:info@capital247.com.tr" className="text-[#E8872A] hover:underline">info@capital247.com.tr</a>
                   </p>
                 </div>
               </section>
@@ -160,8 +160,8 @@ export default function KVKK() {
                   </p>
                   <p>
                     <strong>Alternatif E-posta:</strong>{" "}
-                    <a href="mailto:info@kuniqcapital.com" className="text-[#E8872A] hover:underline">
-                      info@kuniqcapital.com
+                    <a href="mailto:info@capital247.com.tr" className="text-[#E8872A] hover:underline">
+                      info@capital247.com.tr
                     </a>
                   </p>
                 </div>
@@ -177,7 +177,7 @@ export default function KVKK() {
               </section>
 
               <div className="mt-10 pt-6 border-t border-border text-center text-xs text-muted-foreground">
-                <p>Kuniq Capital Inc. — birgundeogren.com</p>
+                <p>Capital 247 Inc. — birgundeogren.com</p>
                 <p className="mt-1">
                   <a href="mailto:info@birgundeogren.com" className="text-[#E8872A] hover:underline">info@birgundeogren.com</a>
                 </p>
